@@ -113,4 +113,6 @@ def user_menu():
         print('Unexpected character, try again!')
         return user_menu()
 
-auth_menu()
+
+if __name__ == '__main__':
+    auth_menu()
