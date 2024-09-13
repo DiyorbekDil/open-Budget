@@ -55,4 +55,4 @@ def execute_query(query, params=None, fetch=None):
                 return db.execute(query, params)
     except Exception as e:
         print(f"Exception occurred while executing: {e}")
-        return
+        return None

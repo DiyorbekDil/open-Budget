@@ -1,3 +1,10 @@
+from auth_menu import register, login, logout
+from admin_functions import create_season, show_all_seasons, add_category, show_all_categories
+from admin_functions import stop_accepting_offers, stop_accepting_votes
+from user_functions import show_active_season, send_offer, check_my_offer, vote
+from admin_functions import get_all_offers, approve_or_reject_offer
+
+
 def auth_menu():
     text = """
     1.Register
@@ -8,9 +15,17 @@ def auth_menu():
 
     user_input = input('Enter a number: ')
     if user_input == '1':
-        pass
+        register()
+        auth_menu()
     elif user_input == '2':
-        pass
+        result = login()
+        if result == 'admin':
+            return admin_menu()
+        elif result == 'user':
+            return user_menu()
+        else:
+            print(result)
+        auth_menu()
     elif user_input == '3':
         return
     else:
@@ -26,24 +41,36 @@ def admin_menu():
     4.Ovoz berishni to'xtatish va g'oliblarni aniqlash
     5.Faol mavsum real vaqt natijalarini olish
     6.Barcha mavsumlarni ko'rish
-    7.Orqaga
+    7.Kategoriya qo'shish
+    8.Barcha kategoriyalarni ko'rish
+    9.Orqaga
     """
     print(text)
 
     user_input = input('Enter a number: ')
     if user_input == '1':
-        pass
+        create_season()
+        admin_menu()
     elif user_input == '2':
         work_with_offers()
     elif user_input == '3':
-        pass
+        stop_accepting_offers()
+        admin_menu()
     elif user_input == '4':
-        pass
+        stop_accepting_votes()
+        admin_menu()
     elif user_input == '5':
         pass
     elif user_input == '6':
-        pass
+        show_all_seasons()
+        admin_menu()
     elif user_input == '7':
+        add_category()
+        admin_menu()
+    elif user_input == '8':
+        show_all_categories()
+        admin_menu()
+    elif user_input == '9':
         return auth_menu()
     else:
         print('Unexpected character, try again!')
@@ -63,15 +90,20 @@ def work_with_offers():
 
     user_input = input('Enter a number: ')
     if user_input == '1':
-        pass
+        get_all_offers('all')
+        work_with_offers()
     elif user_input == '2':
-        pass
+        approve_or_reject_offer()
+        work_with_offers()
     elif user_input == '3':
-        pass
+        get_all_offers('approved')
+        work_with_offers()
     elif user_input == '4':
-        pass
+        get_all_offers('rejected')
+        work_with_offers()
     elif user_input == '5':
-        pass
+        get_all_offers('pending')
+        work_with_offers()
     elif user_input == '6':
         return admin_menu()
     else:
@@ -88,26 +120,40 @@ def user_menu():
     5.Ovoz berish
     6.Faol mavsum real vaqt natijalarini olish
     7.Mavsum g'oliblarini id orqali ko'rish
-    8.Orqaga
+    8.Barcha kategoriyalarni ko'rish
+    9.Barcha mavsumlarni ko'rish
+    10.Orqaga
     """
     print(text)
 
     user_input = input('Enter a number: ')
     if user_input == '1':
-        pass
+        show_active_season()
+        user_menu()
     elif user_input == '2':
-        pass
+        send_offer()
+        user_menu()
     elif user_input == '3':
-        pass
+        check_my_offer()
+        user_menu()
     elif user_input == '4':
-        pass
+        get_all_offers('approved')
+        user_menu()
     elif user_input == '5':
-        pass
+        vote()
+        user_menu()
     elif user_input == '6':
         pass
     elif user_input == '7':
         pass
     elif user_input == '8':
+        show_all_categories()
+        user_menu()
+    elif user_input == '9':
+        show_all_seasons()
+        user_menu()
+    elif user_input == '10':
+        logout()
         return auth_menu()
     else:
         print('Unexpected character, try again!')
