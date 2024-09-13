@@ -117,3 +117,58 @@ def approve_or_reject_offer():
         print('Taklif id butun sondir')
 
 
+def get_num_of_winners_of_category(category_id):
+    query = """select num_of_winners from categories where id = %s"""
+    params = category_id,
+    return execute_query(query, params, fetch='one')
+
+
+def determine_winners():
+    try:
+        season_id = int(input('Enter season id: '))
+        if not get_season_by_id(season_id):
+            print('Bunaqa iddagi mavsum yo\'q')
+            return
+        category_id = int(input('Enter category id: '))
+        num_of_winners = get_num_of_winners_of_category(category_id)
+        if not num_of_winners:
+            print('Bunaqa iddagi kategoriya yo\'q')
+
+        query = """select t.description, count(*) from ovozlar o inner join takliflar t 
+        on o.taklif_id = t.id
+        where o.mavsum_id = %s and t.category_id = %s
+        group by description order by count(*) limit %s 
+        """
+        params = season_id, category_id, num_of_winners[0]
+        results = execute_query(query, params, fetch='all')
+        if not results:
+            print('G\'oliblar mavjud emas!')
+            return
+        print('Taklif - Ovozlar soni')
+        for result in results:
+            print(result)
+    except ValueError:
+        print('mavsum yoki kategoriya idsi noto\'g\'ri, qayta urining')
+
+
+def votes_statistics():
+    try:
+        season_id = int(input('Enter season id: '))
+        if not get_season_by_id(season_id):
+            print('Bunaqa iddagi mavsum yo\'q')
+            return
+        query = """select c.name, count(*) from ovozlar o inner join takliflar t 
+                on o.taklif_id = t.id
+                inner join categories c
+                on t.category_id = c.id
+                group by c.name
+                """
+        results = execute_query(query, fetch='all')
+        if not results:
+            print('Nimadir xato ketdi')
+            return
+        print('Kategoriya - Ovozlar soni')
+        for result in results:
+            print(result)
+    except ValueError:
+        print('mavsum idsi noto\'g\'ri, qayta urining')

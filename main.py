@@ -2,7 +2,8 @@ from auth_menu import register, login, logout
 from admin_functions import create_season, show_all_seasons, add_category, show_all_categories
 from admin_functions import stop_accepting_offers, stop_accepting_votes
 from user_functions import show_active_season, send_offer, check_my_offer, vote
-from admin_functions import get_all_offers, approve_or_reject_offer
+from admin_functions import get_all_offers, approve_or_reject_offer, determine_winners
+from admin_functions import votes_statistics
 
 
 def auth_menu():
@@ -43,7 +44,8 @@ def admin_menu():
     6.Barcha mavsumlarni ko'rish
     7.Kategoriya qo'shish
     8.Barcha kategoriyalarni ko'rish
-    9.Orqaga
+    9.Statistikani ko'rish
+    10.Orqaga
     """
     print(text)
 
@@ -60,7 +62,8 @@ def admin_menu():
         stop_accepting_votes()
         admin_menu()
     elif user_input == '5':
-        pass
+        determine_winners()
+        admin_menu()
     elif user_input == '6':
         show_all_seasons()
         admin_menu()
@@ -71,6 +74,9 @@ def admin_menu():
         show_all_categories()
         admin_menu()
     elif user_input == '9':
+        votes_statistics()
+        admin_menu()
+    elif user_input == '10':
         return auth_menu()
     else:
         print('Unexpected character, try again!')

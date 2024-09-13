@@ -96,8 +96,3 @@ def vote():
         print('Ovozingiz qabul etildi')
     except ValueError:
         print('Taklif raqami butun sondir')
-
-
-
-
-
