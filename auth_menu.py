@@ -1,15 +1,18 @@
 import hashlib
 from db_manager import execute_query
+from logging_file import log_decorator
 
 
 admin_name = '00'
 admin_password = '00'
 
 
+@log_decorator
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
 
 
+@log_decorator
 def register():
     try:
         name = input('Enter your name: ')
@@ -32,6 +35,7 @@ def register():
         print('Card number must be a whole number!')
 
 
+@log_decorator
 def login():
     name = input('Enter your name: ')
     password = input('Enter your password: ')
@@ -52,6 +56,7 @@ def login():
         return 'No such a user, try again!'
 
 
+@log_decorator
 def logout():
     sql = "update users set is_active = false where is_active = true"
     execute_query(sql)

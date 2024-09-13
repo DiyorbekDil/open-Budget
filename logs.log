@@ -1,0 +1,4 @@
+2024-09-13 17:46:50 - log.logging_file - INFO - Function: login: args: () kwargs: {} result: admin
+2024-09-13 17:46:52 - log.logging_file - INFO - Function: create_season: args: () kwargs: {} result: None
+2024-09-13 17:59:50 - logging_file - INFO - Function: login: args: () kwargs: {} result: admin
+2024-09-13 17:59:52 - logging_file - INFO - Function: create_season: args: () kwargs: {} result: None

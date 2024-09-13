@@ -1,29 +1,36 @@
 from db_manager import execute_query
+from logging_file import log_decorator
 
 
+@log_decorator
 def show_active_season():
     query = "select * from mavsum where taklif_status=True or is_active=True"
     result = execute_query(query, fetch='one')
     print(f"mavsum id - {result[0]} |"
           f" Taklif qabuli - {result[1]} |"
           f" Ovoz qabuli - {result[2]}")
+    return result
 
 
+@log_decorator
 def get_offer_active_season():
     query = "select * from mavsum where taklif_status=True and is_active=False"
     return execute_query(query, fetch='one')
 
 
+@log_decorator
 def get_vote_active_season():
     query = "select * from mavsum where is_active=True and taklif_status=True"
     return execute_query(query, fetch='one')
 
 
+@log_decorator
 def get_active_user():
     query = "select * from users where is_active=True"
     return execute_query(query, fetch='one')
 
 
+@log_decorator
 def send_offer():
     try:
         mavsum = get_offer_active_season()
@@ -47,6 +54,7 @@ def send_offer():
         print('Kategoriya raqami butun sondir')
 
 
+@log_decorator
 def check_my_offer():
     active_user = get_active_user()[0]
     query = """select * from takliflar where user_id=%s"""
@@ -59,18 +67,21 @@ def check_my_offer():
     print(f"{result[3]} - {result[4]}")
 
 
+@log_decorator
 def get_offer_by_id(offer_id):
     query = """select * from takliflar where id = %s"""
     params = offer_id,
     return execute_query(query, params, fetch='one')
 
 
+@log_decorator
 def is_user_voted(season_id, user_id):
     query = """select * from ovozlar where user_id = %s and mavsum_id = %s;"""
     params = user_id, season_id
     return execute_query(query, params, fetch='one')
 
 
+@log_decorator
 def vote():
     try:
         season = get_vote_active_season()

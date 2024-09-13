@@ -4,8 +4,10 @@ from admin_functions import stop_accepting_offers, stop_accepting_votes
 from user_functions import show_active_season, send_offer, check_my_offer, vote
 from admin_functions import get_all_offers, approve_or_reject_offer, determine_winners
 from admin_functions import votes_statistics
+from logging_file import log_decorator
 
 
+@log_decorator
 def auth_menu():
     text = """
     1.Register
@@ -34,13 +36,14 @@ def auth_menu():
         return auth_menu()
 
 
+@log_decorator
 def admin_menu():
     text = """
     1.Mavsum yaratish va takliflar qabul qilishni boshlash
     2.Takliflar bilan ishlash 
     3.Takliflarni to'xtatish va ovoz berishni boshlash
-    4.Ovoz berishni to'xtatish va g'oliblarni aniqlash
-    5.Faol mavsum real vaqt natijalarini olish
+    4.Ovoz berishni to'xtatish
+    5.Mavsum real vaqt natijalarini olish
     6.Barcha mavsumlarni ko'rish
     7.Kategoriya qo'shish
     8.Barcha kategoriyalarni ko'rish
@@ -83,6 +86,7 @@ def admin_menu():
         return admin_menu()
 
 
+@log_decorator
 def work_with_offers():
     text = """
     1.Faol mavsum barcha kelgan takliflarni ko'rish
@@ -117,6 +121,7 @@ def work_with_offers():
         return work_with_offers()
 
 
+@log_decorator
 def user_menu():
     text = """
     1.Faol mavsum haqida ma'lumot

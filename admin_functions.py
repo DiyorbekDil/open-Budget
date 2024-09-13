@@ -1,13 +1,23 @@
 from db_manager import execute_query
-from user_functions import get_offer_active_season
+from logging_file import log_decorator
 
 
+def check_active_season():
+    query = "select * from mavsum where taklif_status=True or is_active=True"
+    return execute_query(query, fetch='one')
+
+
+@log_decorator
 def create_season():
+    if check_active_season():
+        print('Faol mavsum mavjud')
+        return
     query = """insert into mavsum (taklif_status, is_active) values (True, False); """
     execute_query(query)
     print('Mavsum yaratildi!')
 
 
+@log_decorator
 def show_all_seasons():
     query = """select * from mavsum"""
     seasons = execute_query(query, fetch='all')
@@ -16,6 +26,7 @@ def show_all_seasons():
         print(f"{season[0]} - {season[1]} - {season[2]}")
 
 
+@log_decorator
 def add_category():
     try:
         name = input('Kategoriya nomini kiriting: ')
@@ -28,6 +39,7 @@ def add_category():
         print("G'oliblar soni butun son bo'lishi kerak")
 
 
+@log_decorator
 def show_all_categories():
     query = """select * from categories"""
     categories = execute_query(query, fetch='all')
@@ -36,6 +48,7 @@ def show_all_categories():
         print(f"{category[0]} - {category[1]} - {category[2]}")
 
 
+@log_decorator
 def stop_accepting_offers():
     try:
         season_id = int(input('Mavsum idsini kiriting: '))
@@ -50,6 +63,7 @@ def stop_accepting_offers():
         print('Mavsum id butun sondir')
 
 
+@log_decorator
 def stop_accepting_votes():
     try:
         season_id = int(input('Mavsum idsini kiriting: '))
@@ -61,12 +75,14 @@ def stop_accepting_votes():
         print('Mavsum id butun sondir')
 
 
+@log_decorator
 def get_season_by_id(season_id):
     query = """select * from mavsum where id = %s"""
     params = season_id,
     return execute_query(query, params, fetch='one')
 
 
+@log_decorator
 def get_all_offers(condition):
     try:
         season_id = int(input('Mavsum idsini kiriting: '))
@@ -91,6 +107,7 @@ def get_all_offers(condition):
         print('Mavsum id butun sondir!')
 
 
+@log_decorator
 def approve_or_reject_offer():
     try:
         season_id = int(input('Mavsum idsini kiriting: '))
@@ -117,12 +134,14 @@ def approve_or_reject_offer():
         print('Taklif id butun sondir')
 
 
+@log_decorator
 def get_num_of_winners_of_category(category_id):
     query = """select num_of_winners from categories where id = %s"""
     params = category_id,
     return execute_query(query, params, fetch='one')
 
 
+@log_decorator
 def determine_winners():
     try:
         season_id = int(input('Enter season id: '))
@@ -151,6 +170,7 @@ def determine_winners():
         print('mavsum yoki kategoriya idsi noto\'g\'ri, qayta urining')
 
 
+@log_decorator
 def votes_statistics():
     try:
         season_id = int(input('Enter season id: '))
